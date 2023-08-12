@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <label for="user_name">User Name</label>
+    <input type="text" id="user_name">
+    <br>
+    <label for="password">Password</label>
+    <input type="text" id="password">
+    <br>
+    <button id="submit" onclick="Submit()">Submit</button>
+
+</body>
+
+<script>
+    async function Submit() {
+
+        let username = document.getElementById('user_name').value;
+        let password = document.getElementById('password').value;
+        if (username.trim() == false) {
+            alert('user name is empty');
+            return;
+        }
+
+        const response = await fetch('/Home/saveuser/', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                Username: username,
+                Password: password
+            }),
+        });
+
+
+        const result = await response.json();
+
+        if (result.StatusVal == false) {
+            alert(result.StatusMsg);
+            return;
+        }
+    }
+</script>
+
+</html>
